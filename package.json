@@ -1,0 +1,26 @@
+{
+  "name": "where-its-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oscar-Mattsson-790/Where-its-api.git"
+  },
+  "keywords": [],
+  "author": "Oscar Mattsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oscar-Mattsson-790/Where-its-api/issues"
+  },
+  "homepage": "https://github.com/Oscar-Mattsson-790/Where-its-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nedb-promises": "^6.2.1",
+    "readline-sync": "^1.4.10"
+  }
+}
