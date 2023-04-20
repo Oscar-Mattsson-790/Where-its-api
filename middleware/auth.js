@@ -1,30 +1,26 @@
+const jwt = require("jsonwebtoken");
 const db = require("../model/database");
 
-// Middleware function to authenticate API key
-const authenticateApiKey = (req, res, next) => {
-  const apiKey = req.headers["x-api-key"];
-
-  if (!apiKey) {
-    res.status(401).json({ error: "API key missing" });
-    return;
-  }
-
-  db.users.findOne({ apiKey }, (err, user) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
+const authenticateToken = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+    const user = await db.users.findOne({ id: userId });
     if (!user) {
-      res.status(401).json({ error: "Invalid API key" });
-      return;
+      return res.status(401).json({ error: "Unauthorized" });
     }
-
     req.user = user;
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 };
 
 module.exports = {
-  authenticateApiKey,
+  authenticateToken,
 };

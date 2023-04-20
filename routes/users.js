@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const db = require("../model/database");
+const { authenticateToken } = require("../middleware/auth");
 
 // Create an account and generate an API key
 router.post("/", (req, res) => {
@@ -61,6 +62,12 @@ router.post("/login", (req, res) => {
       res.json({ apiKey });
     });
   });
+});
+
+// Get the user's name and email using their API key
+router.get("/user", authenticateToken, (req, res) => {
+  const { name, email } = req.user;
+  res.json({ name, email });
 });
 
 module.exports = router;
